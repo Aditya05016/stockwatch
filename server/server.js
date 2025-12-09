@@ -1,8 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+const connectDb = require("./config/database")
 
 app.use(express.json());
+connectDb();
 
 app.get("/", (req, res) => {
   res.send("This is home Page");
