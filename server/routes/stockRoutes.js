@@ -43,3 +43,5 @@ router.delete("/delete/:id", async(req,res) => {
         return res.status(400).json({message:"Somethig went wrong"})
     }
 })
+
+module.exports = router;

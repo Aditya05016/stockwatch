@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const Watchlist = require("../models/watchlist")
+const Watchlist = require("../models/watchlist");
+const authMiddleware = require("../middleware/authMiddleware");
 
 
-//add a watchlist 
-
-router.post("/watchlist/add", async (req, res) => {
+// Add a watchlist 
+router.post("/watchlist/add", authMiddleware, async (req, res) => {
     try {
-        const { userId, stocks } = req.body;
+        const userId = req.user.id;     // userId from token
+        const { stocks } = req.body;
 
         let watchlist = await Watchlist.findOne({ userId });
 
@@ -34,25 +35,36 @@ router.post("/watchlist/add", async (req, res) => {
 });
 
 
-router.get("/getwatchlist", async (req, res) => {
+// Get watchlist of logged-in user
+router.get("/getwatchlist", authMiddleware, async (req, res) => {
     try {
-        const getwatchlist = await Watchlist.find();
-        return res.status(200).json({ message: "Finally get the watchlist", getwatchlist });
+        const userId = req.user.id;
+
+        const watchlist = await Watchlist.findOne({ userId });
+
+        return res.status(200).json({ message: "Watchlist fetched", watchlist });
+
     } catch (error) {
-        console.error({ message: "Something went wrong", error });
+        console.error("Something went wrong", error);
         return res.status(400).json({ message: "Something went wrong" });
     }
 });
 
-router.delete("/deletelist/:id", async (req, res) => {
+
+// Delete the entire watchlist document (for logged-in user)
+router.delete("/deletelist", authMiddleware, async (req, res) => {
     try {
-        const id = req.params.id;  // FIXED: params spelling
-        const deltelist = await Watchlist.findByIdAndDelete(id); // FIXED: returns same name
-        return res.status(200).json({ message: "Deleted successfully", deltelist });
+        const userId = req.user.id;
+
+        const deleted = await Watchlist.findOneAndDelete({ userId });
+
+        return res.status(200).json({ message: "Watchlist deleted successfully", deleted });
+
     } catch (error) {
-        console.error("Something went wrong", error); // FIXED syntax
+        console.error("Something went wrong", error);
         return res.status(400).json({ message: "Something went wrong" });
     }
 });
+
 
 module.exports = router;
