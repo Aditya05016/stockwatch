@@ -32,5 +32,9 @@ export const GetWatchList = (token) => {
       },
     });
   };
+
   
+  export const getStocks = (query) => {
+  return axios.get(`${BASE_URL}/getstocks?q=${query}`);
+};
 
