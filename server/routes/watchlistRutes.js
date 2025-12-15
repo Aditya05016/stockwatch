@@ -5,7 +5,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 
 // Add a watchlist 
-router.post("/watchlist/add", authMiddleware, async (req, res) => {
+router.post("/add", authMiddleware, async (req, res) => {
     try {
         const userId = req.user.id;     // userId from token
         const { stocks } = req.body;
