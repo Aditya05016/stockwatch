@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "http://localhost:5000";
 
 export const loginRequest = (data) => {
     return axios.post(`${BASE_URL}/api/auth/login`, data);
@@ -34,7 +34,10 @@ export const GetWatchList = (token) => {
   };
 
   
-  export const getStocks = (query) => {
-  return axios.get(`${BASE_URL}/getstocks?q=${query}`);
+export const getStocks = (query) => {
+  return axios.get(`${BASE_URL}/api/stocksearch`, {
+    params: { q: query },
+  });
 };
+
 

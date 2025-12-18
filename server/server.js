@@ -5,8 +5,9 @@ const cors = require("cors");
 
 const connectDb = require("./config/database");
 const authRoutes = require("./routes/authRoutes");
-const stockRoutes = require("./routes/stockRoutes");
+// const stockRoutes = require("./routes/stockRoutes");
 const watchlistRutes = require("./routes/watchlistRutes");
+const searchRoutes = require("./routes/searchRoutes");
 
 app.use(express.json());
 
@@ -18,8 +19,9 @@ app.use(cors({
 connectDb();
 
 app.use("/api/auth", authRoutes);
-app.use("/api/stocks", stockRoutes);
+// app.use("/api/stocks", stockRoutes);
 app.use("/api/watch", watchlistRutes);
+app.use("/api/stocksearch", searchRoutes);
 
 app.get("/", (req, res) => {
   res.send("This is home Page");
