@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
+      console.log("FINNHUB KEY:", process.env.FINNHUB_API_KEY); //
     const query = req.query.q;
 
     if (!query) {
@@ -20,10 +21,16 @@ router.get("/", async (req, res) => {
       }
     );
 
-    return res.status(200).json(response.data);
+    return res.json(response.data.result);
+
   } catch (error) {
-    console.error("Stock search error:", error.message);
-    return res.status(500).json({ message: "Failed to fetch stocks" });
+    console.log("STATUS:", error.response?.status);
+    console.log("DATA:", error.response?.data);
+    console.log("MSG:", error.message);
+
+    return res.status(500).json({
+      message: "Stock search failed",
+    });
   }
 });
 
