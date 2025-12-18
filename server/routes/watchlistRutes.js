@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Watchlist = require("../models/watchlist");
-const authMiddleware = require("../middleware/authMiddleware");
+const authMiddleware = require("../midlleware/authMiddleware");
 
 
 // Add a watchlist 
